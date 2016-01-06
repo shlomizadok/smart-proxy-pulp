@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'webmock/test_unit'
 require 'mocha/test_unit'
-require "rack/test"
+require 'rack/test'
 
 require 'smart_proxy_pulp_plugin/pulp_plugin'
 require 'smart_proxy_pulp_plugin/pulp_api'
@@ -35,5 +35,12 @@ class PulpApiTest < Test::Unit::TestCase
     assert last_response.server_error?
   ensure
     Net::HTTP.any_instance.unstub(:request)
+  end
+
+  def test_returns_pulp_disk_on_200
+    get '/status/diskfree'
+    response = JSON.parse(last_response.body)
+    assert last_response.ok?, "Last response was not ok: #{last_response.body}"
+    assert_equal(%w(filesystem 1g-blocks used available use% mounted path size), response.keys)
   end
 end
