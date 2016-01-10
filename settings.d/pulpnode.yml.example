@@ -1,3 +1,4 @@
 ---
 :enabled: true
 #:pulp_url: https://localhost/pulp
+#:pulp_dir /var/lib/pulp
