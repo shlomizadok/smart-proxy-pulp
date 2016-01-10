@@ -19,12 +19,12 @@ module PulpProxy
       end
     end
 
-    get "/status/diskfree" do
+    get '/status/disk_usage' do
       begin
-        pulp_disk = DiskUsage.new
+        pulp_disk = DiskUsage.new(:path => PulpProxy::Plugin.settings.pulp_dir)
         pulp_disk.to_json
       rescue ::Proxy::Error::ConfigurationError
-        log_halt 500, "Chould not find df command to evaluate disk space"
+        log_halt 500, 'Could not find df command to evaluate disk space'
       end
 
     end
